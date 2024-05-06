@@ -17,6 +17,8 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [started, setStarted] = useState('');
+  const [ended, setEnded] = useState('');
+  const [result, setResult] = useState([]);
   const [desc, setDesc] = useState('');
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -32,19 +34,28 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
 
   const onSpeechStart = (e) => {
     console.log('Speech has started', e);
+    setStarted('Listening...');
   };
 
   const onSpeechEnd = (e) => {
     console.log('Speech has ended', e);
+    setEnded('Stop Listening...');
   };
 
   const onSpeechResults = (event) => {
-    console.log('Speech results:', event.value);
+    console.log('onSpeechResults:', event.value);
+    setResult(event.value); // Assuming event.value is the array of strings
+    if (event.value && event.value.length > 0) {
+      setDesc(event.value.join(' ')); // Update description with the spoken text
+    }
   };
 
   const startRecognizing = async () => {
     try {
       await Voice.start('en-Us');
+      setStarted('');
+      setEnded('');
+      setResult([]);
     } catch (e) {
       console.log(e);
     }
@@ -54,6 +65,9 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
     try {
       await Voice.stop();
       await Voice.destroy();
+      setStarted('');
+      setEnded('');
+      setResult([]);
     } catch (e) {
       console.log(e);
     }
@@ -158,7 +172,7 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
                     styles.blackButton,
                   ]}
                 >
-                  <MaterialIcons name="content-paste" size={28} color="#fff" />
+                  <MaterialIcons name="camera" size={28} color="#fff" />
                 </TouchableOpacity>
               </View>
             </View>
