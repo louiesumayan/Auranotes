@@ -11,14 +11,54 @@ import {
   Text,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import note from './Note';
+import Voice from '@react-native-voice/voice';
 
 const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
   const navigation = useNavigation();
-
   const [title, setTitle] = useState('');
+  const [started, setStarted] = useState('');
   const [desc, setDesc] = useState('');
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    Voice.onSpeechStart = onSpeechStart;
+    Voice.onSpeechEnd = onSpeechEnd;
+    Voice.onSpeechResults = onSpeechResults;
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
+
+  const onSpeechStart = (e) => {
+    console.log('Speech has started', e);
+  };
+
+  const onSpeechEnd = (e) => {
+    console.log('Speech has ended', e);
+  };
+
+  const onSpeechResults = (event) => {
+    console.log('Speech results:', event.value);
+  };
+
+  const startRecognizing = async () => {
+    try {
+      await Voice.start('en-Us');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const stopRecognizing = async () => {
+    try {
+      await Voice.stop();
+      await Voice.destroy();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     const loadBookmarkState = async () => {
       try {
@@ -54,27 +94,16 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
     }
   };
 
-  const handleTitleChange = (text) => {
-    setTitle(text);
-  };
-
-  const handleDescChange = (text) => {
-    setDesc(text);
-  };
-
+  const handleTitleChange = (text) => setTitle(text);
+  const handleDescChange = (text) => setDesc(text);
   const handleSubmit = () => {
     if (!title.trim() && !desc.trim()) return onClose();
-    onSubmit(title, desc, note ? note.id : null); // Pass the id back to the onSubmit
+    onSubmit(title, desc, note ? note.id : null);
     setTitle('');
     setDesc('');
     onClose();
   };
 
-  const closeModal = () => {
-    setTitle('');
-    setDesc('');
-    onClose();
-  };
   return (
     <>
       <StatusBar />
@@ -161,8 +190,23 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
                   styles.largeIconButton,
                   styles.blackButton,
                 ]}
+                onPress={() => {
+                  startRecognizing();
+                }}
               >
                 <MaterialIcons name="mic" size={24} color="#fff" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.iconButton,
+                  styles.largeIconButton,
+                  styles.blackButton,
+                ]}
+                onPress={() => {
+                  stopRecognizing();
+                }}
+              >
+                <MaterialIcons name="mic-off" size={24} color="#fff" />
               </TouchableOpacity>
             </View>
           </View>
