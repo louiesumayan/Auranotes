@@ -162,7 +162,7 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
                     styles.blackButton,
                   ]}
                 >
-                  <MaterialIcons name="content-cut" size={28} color="#fff" />
+                  <MaterialIcons name="image" size={28} color="#fff" />
                 </TouchableOpacity>
 
                 <TouchableOpacity
