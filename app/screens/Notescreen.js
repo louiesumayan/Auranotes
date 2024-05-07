@@ -24,6 +24,19 @@ const Notescreen = ({ user }) => {
   const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState(null);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [showBookmarkedOnly, setShowBookmarkedOnly] = useState(false);
+
+  const showAllNotes = () => {
+    setShowBookmarkedOnly(false);
+  };
+
+  const showBookmarkedNotes = () => {
+    setShowBookmarkedOnly(true);
+  };
+
+  const filteredNotes = showBookmarkedOnly
+    ? notes.filter((note) => note.isBookmarked)
+    : notes;
 
   const updateNoteCount = () => {
     navigation.setParams({ noteCount: notes.length });
@@ -130,29 +143,48 @@ const Notescreen = ({ user }) => {
                 <TouchableOpacity
                   style={[
                     styles.filterButton,
-                    styles.firstChildFilter,
-                    styles.activeFilterButton,
+                    !showBookmarkedOnly ? styles.firstChildFilter : {},
+                    !showBookmarkedOnly ? styles.activeFilterButton : {},
                   ]}
+                  onPress={showAllNotes}
                 >
-                  <Text style={[styles.filterText, styles.activeFilterText]}>
+                  <Text
+                    style={[
+                      styles.filterText,
+                      !showBookmarkedOnly ? styles.activeFilterText : {},
+                    ]}
+                  >
                     All
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.filterButton}>
-                  <Text style={styles.filterText}>Bookmarked</Text>
+                <TouchableOpacity
+                  style={[
+                    styles.filterButton,
+                    showBookmarkedOnly ? styles.activeFilterButton : {},
+                  ]}
+                  onPress={showBookmarkedNotes}
+                >
+                  <Text
+                    style={[
+                      styles.filterText,
+                      showBookmarkedOnly ? styles.activeFilterText : {},
+                    ]}
+                  >
+                    Bookmarked
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </ScrollView>
           <FlatList
-            data={notes}
+            data={filteredNotes}
             renderItem={({ item }) => (
               <Note
                 item={item}
                 onPress={() => console.log('Note pressed')}
                 onPressEdit={() => handleEditNote(item)}
                 onPressDelete={() => handleDeleteNote(item.id)}
-                onPressBookmark={() => handleBookmarkToggle(item)} // Pass the function here
+                onPressBookmark={() => handleBookmarkToggle(item)}
               />
             )}
             keyExtractor={(item) => item.id.toString()}

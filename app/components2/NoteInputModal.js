@@ -96,21 +96,6 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
     }
   }, [note]);
 
-  const toggleBookmark = async () => {
-    const newBookmarkState = !isBookmarked;
-    setIsBookmarked(newBookmarkState);
-    try {
-      let allNotes = await AsyncStorage.getItem('notes');
-      allNotes = allNotes ? JSON.parse(allNotes) : [];
-      const updatedNotes = allNotes.map((n) =>
-        n.id === note.id ? { ...n, isBookmarked: newBookmarkState } : n
-      );
-      await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-    } catch (error) {
-      console.error('Failed to save the bookmark state', error);
-    }
-  };
-
   const handleTitleChange = (text) => setTitle(text);
   const handleDescChange = (text) => setDesc(text);
   const handleSubmit = () => {
@@ -147,15 +132,6 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
                   style={styles.iconButton}
                 >
                   <MaterialIcons name="share" size={24} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={toggleBookmark}
-                  style={[
-                    styles.iconButton,
-                    isBookmarked ? styles.bookmark : {},
-                  ]}
-                >
-                  <MaterialIcons name="bookmark" size={24} color="#fff" />
                 </TouchableOpacity>
               </View>
             </View>
