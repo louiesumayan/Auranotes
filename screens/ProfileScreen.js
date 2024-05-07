@@ -8,12 +8,17 @@ import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = ({ route }) => {
   const [localNoteCount, setLocalNoteCount] = useState(0);
+  const [localBookmarkCount, setLocalBookmarkCount] = useState(0);
 
   useEffect(() => {
     if (route.params?.noteCount !== undefined) {
       setLocalNoteCount(route.params.noteCount);
     }
-  }, [route.params?.noteCount]);
+    if (route.params?.bookmarkCount !== undefined) {
+      // Get bookmark count from params
+      setLocalBookmarkCount(route.params.bookmarkCount);
+    }
+  }, [route.params]);
 
   const navigation = useNavigation(); // Hook to access navigation object
   const Logout = async () => {
@@ -45,7 +50,7 @@ const ProfileScreen = ({ route }) => {
           <View style={styles.activityItem}>
             <MaterialIcons name="bookmark" size={24} color="black" />
             <Text style={styles.activityText}>BOOKMARK</Text>
-            <Text style={styles.activityText}>3</Text>
+            <Text style={styles.activityText}>{localBookmarkCount}</Text>
           </View>
         </View>
       </View>

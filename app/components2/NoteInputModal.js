@@ -100,10 +100,12 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
     const newBookmarkState = !isBookmarked;
     setIsBookmarked(newBookmarkState);
     try {
-      await AsyncStorage.setItem(
-        'bookmarkState',
-        JSON.stringify(newBookmarkState)
+      let allNotes = await AsyncStorage.getItem('notes');
+      allNotes = allNotes ? JSON.parse(allNotes) : [];
+      const updatedNotes = allNotes.map((n) =>
+        n.id === note.id ? { ...n, isBookmarked: newBookmarkState } : n
       );
+      await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
     } catch (error) {
       console.error('Failed to save the bookmark state', error);
     }
@@ -121,8 +123,8 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
 
   const shareNote = () => {
     Share.share({
-      message: `${title}\n${desc}`,
-      title: 'Share Note',
+      message: `TITLE: ${title}\n${desc}`,
+      title: 'Share AuraNote',
     });
   };
 

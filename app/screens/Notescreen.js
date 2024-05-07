@@ -44,9 +44,17 @@ const Notescreen = ({ user }) => {
     else setGreet('Good Evening');
   };
 
+  const [bookmarkCount, setBookmarkCount] = useState(0);
+
   const findNotes = async () => {
     const result = await AsyncStorage.getItem('notes');
-    if (result !== null) setNotes(JSON.parse(result));
+    if (result !== null) {
+      const notesArray = JSON.parse(result);
+      setNotes(notesArray);
+      // Count how many are bookmarked
+      const count = notesArray.filter((n) => n.isBookmarked).length;
+      setBookmarkCount(count);
+    }
   };
 
   const handleEditNote = (note) => {
@@ -83,6 +91,14 @@ const Notescreen = ({ user }) => {
     setModalVisible(false);
   };
 
+  const handleBookmarkToggle = async (note) => {
+    const updatedNotes = notes.map((n) =>
+      n.id === note.id ? { ...n, isBookmarked: !n.isBookmarked } : n
+    );
+    setNotes(updatedNotes); // Update state
+    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes)); // Update AsyncStorage
+  };
+
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#fdf0d1" />
@@ -95,6 +111,7 @@ const Notescreen = ({ user }) => {
                 navigation.navigate('profile', {
                   user: user,
                   noteCount: notes.length,
+                  bookmarkCount: bookmarkCount, // pass the bookmark count here
                 })
               }
             >
@@ -134,7 +151,8 @@ const Notescreen = ({ user }) => {
                 item={item}
                 onPress={() => console.log('Note pressed')}
                 onPressEdit={() => handleEditNote(item)}
-                onPressDelete={() => handleDeleteNote(item.id)} // Make sure item.id is correct
+                onPressDelete={() => handleDeleteNote(item.id)}
+                onPressBookmark={() => handleBookmarkToggle(item)} // Pass the function here
               />
             )}
             keyExtractor={(item) => item.id.toString()}

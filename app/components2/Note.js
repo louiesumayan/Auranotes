@@ -10,8 +10,15 @@ import { MaterialIcons } from '@expo/vector-icons'; // Ensure this import is add
 
 const { width } = Dimensions.get('window');
 
-const Note = ({ item, onPress, onPressEdit, onPressDelete }) => {
-  const { title, desc } = item;
+const Note = ({
+  item,
+  onPress,
+  onPressEdit,
+  onPressDelete,
+  onPressBookmark,
+}) => {
+  const { title, desc, isBookmarked } = item; // Destructure isBookmarked from item
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
@@ -25,6 +32,13 @@ const Note = ({ item, onPress, onPressEdit, onPressDelete }) => {
       <View style={styles.iconsContainer}>
         <TouchableOpacity onPress={() => onPressEdit(item)}>
           <MaterialIcons name="edit" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => onPressBookmark(item)}>
+          <MaterialIcons
+            name="bookmark"
+            size={24}
+            color={isBookmarked ? 'gold' : 'grey'}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => onPressDelete(item)}
