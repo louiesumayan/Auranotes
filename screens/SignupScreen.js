@@ -36,7 +36,7 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 10 }}>
+      <View style={{ margin: 30 }}>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Image
             source={require('../assets/images/Image_5.png')}
@@ -119,6 +119,7 @@ const SignUp = () => {
         </Animated.View>
 
         <Animated.View
+          style={styles.btnContainer}
           entering={FadeInDown.delay(100).duration(1000).springify()}
         >
           <TouchableOpacity onPress={handleSubmit} style={styles.button}>
@@ -167,14 +168,17 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   button: {
-    width: 390,
+    width: 280,
     backgroundColor: '#643848',
     padding: 10,
     borderRadius: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+  },
+  btnContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   checkboxContainer: {
     flexDirection: 'row',

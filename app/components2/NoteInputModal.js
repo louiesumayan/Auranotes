@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import {
@@ -9,6 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  StatusBar,
+  Share,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Voice from '@react-native-voice/voice';
@@ -118,6 +119,13 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
     onClose();
   };
 
+  const shareNote = () => {
+    Share.share({
+      message: `${title}\n${desc}`,
+      title: 'Share Note',
+    });
+  };
+
   return (
     <>
       <StatusBar />
@@ -132,7 +140,10 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
                 <MaterialIcons name="arrow-back" size={24} color="#fff" />
               </TouchableOpacity>
               <View style={styles.headerRightButtons}>
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity
+                  onPress={shareNote} // Call the shareNote function on press
+                  style={styles.iconButton}
+                >
                   <MaterialIcons name="share" size={24} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -153,29 +164,7 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
               placeholder="Title"
               placeholderTextColor="#643848"
             />
-            <View style={styles.actionButtonContainerWrapper}>
-              <View style={styles.actionButtonContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.iconButton,
-                    styles.largeIconButton,
-                    styles.blackButton,
-                  ]}
-                >
-                  <MaterialIcons name="image" size={28} color="#fff" />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    styles.iconButton,
-                    styles.largeIconButton,
-                    styles.blackButton,
-                  ]}
-                >
-                  <MaterialIcons name="camera" size={28} color="#fff" />
-                </TouchableOpacity>
-              </View>
-            </View>
+            <View style={styles.actionButtonContainerWrapper}></View>
             <View style={styles.descInputContainer}>
               <TextInput
                 value={desc}

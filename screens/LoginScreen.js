@@ -31,8 +31,14 @@ const LoginScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 10 }}>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ margin: 30 }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 20,
+          }}
+        >
           <Image source={require('../assets/images/Image_7.png')} />
         </View>
         {error && <Text style={styles.errorMessage}>{error}</Text>}
@@ -75,21 +81,7 @@ const LoginScreen = () => {
         </Animated.View>
 
         <Animated.View
-          entering={FadeInDown.delay(200).duration(1000).springify()}
-          style={styles.checkboxContainer}
-        >
-          <View style={styles.checkboxWrapper}>
-            <View style={styles.checkbox}>
-              {/* Your checkbox logic goes here */}
-            </View>
-            <Text style={styles.checkboxText}>Stay logged in?</Text>
-          </View>
-          <TouchableOpacity onPress={() => navigation.push('welcome')}>
-            <Text style={styles.forgotPassword}>Forgot password?</Text>
-          </TouchableOpacity>
-        </Animated.View>
-
-        <Animated.View
+          style={styles.btnContainer}
           entering={FadeInDown.delay(100).duration(1000).springify()}
         >
           <TouchableOpacity onPress={handleSubmit} style={styles.button}>
@@ -119,16 +111,6 @@ const LoginScreen = () => {
             </Text>
           </TouchableOpacity>
         </Text>
-        <View style={styles.authText}>
-          <View style={styles.line} />
-          <Text style={styles.orText}>Or login with</Text>
-          <View style={styles.line} />
-        </View>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <Image source={require('../assets/images/Gmail.png')} />
-          <Image source={require('../assets/images/Facebook.png')} />
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -149,14 +131,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   button: {
-    width: 390,
+    width: 280,
     backgroundColor: '#643848',
     padding: 10,
     borderRadius: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
   checkboxContainer: {
     flexDirection: 'row',
@@ -204,6 +185,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'red',
     marginTop: 10,
+  },
+  btnContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

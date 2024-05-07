@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import Animated, {
   FadeIn,
@@ -21,6 +22,7 @@ const WelcomeScreen = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fdf0d1" />
       <View
         style={{
           justifyContent: 'space-between',
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    width: 390,
+    width: 280,
     backgroundColor: '#643848',
     padding: 20,
     borderRadius: 40,
