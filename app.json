@@ -10,6 +10,11 @@
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.angelosuperman.AuraNotes"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4b07325f-34aa-446d-a502-44adb19f4337"
+      }
     }
   },
   "ios": {
