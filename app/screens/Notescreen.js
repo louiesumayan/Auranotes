@@ -19,6 +19,12 @@ import Note from '../components2/Note'; // Assuming you have a Note component
 const Stack = createNativeStackNavigator();
 
 const Notescreen = ({ user }) => {
+  const [greet, setGreet] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [currentNote, setCurrentNote] = useState(null);
+  const [bookmarkCount, setBookmarkCount] = useState(0);
+
   const updateNoteCount = () => {
     navigation.setParams({ noteCount: notes.length });
   };
@@ -32,19 +38,12 @@ const Notescreen = ({ user }) => {
     navigation.setParams({ noteCount: updatedNotes.length });
   };
 
-  const [greet, setGreet] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [notes, setNotes] = useState([]);
-  const [currentNote, setCurrentNote] = useState(null);
-
   const findGreet = () => {
     const hrs = new Date().getHours();
     if (hrs < 12) setGreet('Good Morning');
     else if (hrs < 17) setGreet('Good Afternoon');
     else setGreet('Good Evening');
   };
-
-  const [bookmarkCount, setBookmarkCount] = useState(0);
 
   const findNotes = async () => {
     const result = await AsyncStorage.getItem('notes');
@@ -96,6 +95,7 @@ const Notescreen = ({ user }) => {
       n.id === note.id ? { ...n, isBookmarked: !n.isBookmarked } : n
     );
     setNotes(updatedNotes); // Update state
+    setBookmarkCount(updatedNotes.filter((n) => n.isBookmarked).length); // Update bookmark count state
     await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes)); // Update AsyncStorage
   };
 

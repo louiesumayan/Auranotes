@@ -4,21 +4,23 @@ import { MaterialIcons } from '@expo/vector-icons';
 import profilePic from '../assets/images/profile.png'; // Adjust the path as necessary
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const ProfileScreen = ({ route }) => {
   const [localNoteCount, setLocalNoteCount] = useState(0);
   const [localBookmarkCount, setLocalBookmarkCount] = useState(0);
 
-  useEffect(() => {
-    if (route.params?.noteCount !== undefined) {
-      setLocalNoteCount(route.params.noteCount);
-    }
-    if (route.params?.bookmarkCount !== undefined) {
-      // Get bookmark count from params
-      setLocalBookmarkCount(route.params.bookmarkCount);
-    }
-  }, [route.params]);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Perform actions when the screen is focused
+      if (route.params?.noteCount !== undefined) {
+        setLocalNoteCount(route.params.noteCount);
+      }
+      if (route.params?.bookmarkCount !== undefined) {
+        setLocalBookmarkCount(route.params.bookmarkCount);
+      }
+    }, [route.params?.noteCount, route.params?.bookmarkCount])
+  );
 
   const navigation = useNavigation(); // Hook to access navigation object
   const Logout = async () => {
