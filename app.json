@@ -33,6 +33,9 @@
     "permissions": [
       "android.permission.RECORD_AUDIO"
     ],
-    "package": "com.anonymous.SpeectToTextApp"
+    "package": "com.anonymous.SpeectToTextApp",
+    "android": {
+      "permissions": ["RECORD_AUDIO"]
+    }
   }
 }

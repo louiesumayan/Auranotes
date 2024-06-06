@@ -244,7 +244,6 @@ const styles = StyleSheet.create({
   filterContainer: {
     flexDirection: 'row',
     justifyContent: 'left',
-    marginBottom: 15,
   },
   filterButton: {
     borderWidth: 1,

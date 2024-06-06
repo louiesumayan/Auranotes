@@ -177,18 +177,6 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note }) => {
               >
                 <MaterialIcons name="mic" size={24} color="#fff" />
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.iconButton,
-                  styles.largeIconButton,
-                  styles.blackButton,
-                ]}
-                onPress={() => {
-                  stopRecognizing();
-                }}
-              >
-                <MaterialIcons name="mic-off" size={24} color="#fff" />
-              </TouchableOpacity>
             </View>
           </View>
         </View>

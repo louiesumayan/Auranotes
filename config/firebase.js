@@ -5,12 +5,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyDmaBR_xwTD2VxmQCPjrQi-ltFLa5HRHTA',
-  authDomain: 'auranotesdb.firebaseapp.com',
-  projectId: 'auranotesdb',
-  storageBucket: 'auranotesdb.appspot.com',
-  messagingSenderId: '75691379408',
-  appId: '1:75691379408:web:fa113eebf01a4148406cd5',
+  apiKey: 'AIzaSyDs-zFH33Eb1NVpjQfK9-g0pNyDquv9zo8',
+  authDomain: 'auradb-bb6d2.firebaseapp.com',
+  projectId: 'auradb-bb6d2',
+  storageBucket: 'auradb-bb6d2.appspot.com',
+  messagingSenderId: '173403710895',
+  appId: '1:173403710895:web:320e9a4f2bb3158b1bfb5a',
+  measurementId: 'G-JXJ2NKYNBZ',
 };
 
 // Initialize Firebase
